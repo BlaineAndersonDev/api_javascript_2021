@@ -2,7 +2,7 @@ require('dotenv').config()
 
 module.exports = {
 
-  mocha: {
+  tests: {
     client: 'pg',
     connection: 'api_javascript',
     migrations: {
