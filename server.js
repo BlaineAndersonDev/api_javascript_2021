@@ -19,6 +19,10 @@ const port = 3000 // Defined port for the app (I.E. localhost:3000/)
 // =================================
 // Routing =========================
 // =================================
+app.get('/live', (async (req, res, next) => {
+  res.send("App is confirmed live.")
+}));
+
 app.get('/users', (async (req, res, next) => {
   const users = await db.select('*').table('users')
   console.log(users)
