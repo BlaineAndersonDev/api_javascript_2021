@@ -40,7 +40,7 @@ module.exports = {
     connection: {
       connectionString : process.env.DATABASE_URL,
       ssl: false
-    }
+    },
     // debug: true,
     pool: {
       min: 2,
