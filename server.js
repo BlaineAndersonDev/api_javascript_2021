@@ -14,7 +14,7 @@ const configuration = require('./knexfile')[env]; // Require environment's setti
 const db = require('knex')(configuration); // Connect to DB via knex using env's settings.
 
 const app = express() // Start the 'app'.
-const port = 3000 // Defined port for the app (I.E. localhost:3000/)
+const port = process.env.PORT || 3000; // Defined port for the app (I.E. localhost:3000/)
 
 // =================================
 // Routing =========================
