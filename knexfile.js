@@ -37,10 +37,8 @@ module.exports = {
     //   user:     process.env.PROD_DB_USER,
     //   password: process.env.PROD_DB_PASS
     // },
-    connection: {
-      connectionString : process.env.DATABASE_URL,
-      ssl: false
-    },
+    connection: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
     // debug: true,
     pool: {
       min: 2,
