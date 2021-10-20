@@ -26,6 +26,11 @@ app.get('/users', (async (req, res, next) => {
   res.send(users)
 }));
 
+app.get('/users/:userId', (async (req, res, next) => {
+  const user = await db.select('*').from('users').where('id', req.params.userId)
+  res.send(user)
+}));
+
 app.get('/insert', (async (req, res, next) => {
   const users = await db('users').insert({firstName: "Bob", gender: "female"})
   console.log(users)
