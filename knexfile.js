@@ -38,7 +38,7 @@ module.exports = {
     //   password: process.env.PROD_DB_PASS
     // },
     connection: process.env.DATABASE_URL,
-    ssl: true,
+    ssl: false,
     // debug: true,
     pool: {
       min: 2,
