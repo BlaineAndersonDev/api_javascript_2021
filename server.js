@@ -2,14 +2,11 @@
 // Import & Require ================
 // =================================
 const express = require('express') // Allow HTTP Calls.
-const pg = require('pg');
 
 // =====================================
 // Initialize ==========================
 // =====================================
 const env = process.env.NODE_ENV || 'development'; // Defaults env to development.
-  // In production force PG to use SSL connections, allowing data transfer over hosts.
-  env === 'production' ? pg.defaults.ssl = true : pg.defaults.ssl = false ; 
 const configuration = require('./knexfile')[env]; // Require environment's settings from knexfile.
 const db = require('knex')(configuration); // Connect to DB via knex using env's settings.
 
@@ -35,6 +32,11 @@ app.get('/insert', (async (req, res, next) => {
   res.send(users)
 }));
 
+app.get('/articles', (async (req, res, next) => {
+  const users = await db.select('*').table('articles')
+  console.log(users)
+  res.send(users)
+}));
 // =====================================
 // Final Steps =========================
 // =====================================

@@ -1,13 +1,10 @@
 
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('users').truncate()
-    .then(function () {
-      // Inserts seed entries
-      return knex('users').insert([
-        {firstName: "Blaine", gender: 'male', favoriteColor: "Yellow"},
-        {firstName: "Kelli", gender: 'female', favoriteColor: "Green"},
-        {firstName: "Piper", gender: 'Queer'}
+  return knex('users').then(function () {
+    return knex('users').insert([
+        {name: "Blaine", gender: 'male', favorite_color: "Yellow", created_at: knex.fn.now(), updated_at: knex.fn.now()},
+        {name: "Kelli", gender: 'female', favorite_color: "Green", created_at: knex.fn.now(), updated_at: knex.fn.now()},
+        {name: "Piper", gender: 'Queer', created_at: knex.fn.now(), updated_at: knex.fn.now()}
       ]);
     });
 };
