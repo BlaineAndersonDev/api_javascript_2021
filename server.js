@@ -9,7 +9,7 @@ const pg = require('pg');
 // =====================================
 const env = process.env.NODE_ENV || 'development'; // Defaults env to development.
   // In production force PG to use SSL connections, allowing data transfer over hosts.
-  // env === 'production' ? pg.defaults.ssl = true : pg.defaults.ssl = false ; 
+  env === 'production' ? pg.defaults.ssl = true : pg.defaults.ssl = false ; 
 const configuration = require('./knexfile')[env]; // Require environment's settings from knexfile.
 const db = require('knex')(configuration); // Connect to DB via knex using env's settings.
 
