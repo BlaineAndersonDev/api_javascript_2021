@@ -9,7 +9,7 @@ const pg = require('pg');
 // =====================================
 const env = process.env.NODE_ENV || 'development'; // Defaults env to development.
   // In production force PG to use SSL connections, allowing data transfer over hosts.
-  env === 'production' ? pg.defaults.ssl = true : pg.defaults.ssl = false ; 
+  // env === 'production' ? pg.defaults.ssl = true : pg.defaults.ssl = false ; 
 const configuration = require('./knexfile')[env]; // Require environment's settings from knexfile.
 const db = require('knex')(configuration); // Connect to DB via knex using env's settings.
 
@@ -20,11 +20,17 @@ const port = 3000 // Defined port for the app (I.E. localhost:3000/)
 // Routing =========================
 // =================================
 app.get('/live', (async (req, res, next) => {
-  res.send("App is confirmed live.")
+  await res.send("App is confirmed live.")
 }));
 
 app.get('/users', (async (req, res, next) => {
   const users = await db.select('*').table('users')
+  console.log(users)
+  res.send(users)
+}));
+
+app.get('/insert', (async (req, res, next) => {
+  const users = await db('users').insert({firstName: "Bob", gender: "female"})
   console.log(users)
   res.send(users)
 }));

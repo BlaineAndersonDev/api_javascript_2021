@@ -5,9 +5,9 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {user_id: 001, gender: 'male'},
-        {user_id: 002, gender: 'female'},
-        {user_id: 003, gender: 'binary'}
+        {firstName: "Blaine", gender: 'male', favoriteColor: "Yellow"},
+        {firstName: "Kelli", gender: 'female', favoriteColor: "Green"},
+        {firstName: "Piper", gender: 'Queer'}
       ]);
     });
 };
