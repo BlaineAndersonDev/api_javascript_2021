@@ -4,13 +4,16 @@
 const express = require('express') // Allow HTTP Calls.
 const app = express() // Start the 'app'.
 const port = process.env.PORT || 3000; // Defined port for the app (I.E. localhost:3000/).
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // =================================
 // Routing =========================
 // =================================
-app.use('/users', require('./controllers/usersController.js')); // Route 'usersController' for ../users/.
-app.use('/articles', require('./controllers/articlesController.js'));
-app.use('/comments', require('./controllers/commentsController.js'));
+app.use('/api/1.0/users', require('./controllers/usersController.js')); // Route 'usersController' for ../users/.
+app.use('/api/1.0/articles', require('./controllers/articlesController.js'));
+app.use('/api/1.0/comments', require('./controllers/commentsController.js'));
 
 // =====================================
 // Final Steps =========================

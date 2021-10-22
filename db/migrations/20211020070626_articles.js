@@ -4,7 +4,8 @@ exports.up = function(knex) {
     table.integer('user_id').references('id').inTable('users').notNull();
     table.string('title');
     table.text('text');
-    table.timestamps();
+    table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp('updated_at', { useTz: true }).defaultTo(knex.fn.now());
   })
 };
 
