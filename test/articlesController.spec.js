@@ -22,7 +22,7 @@ describe('Articles', function() {
       done();
     });
   });
-  it('should list SINGLE articles on GET /articles/:id', function(done) {
+  it('should list a SINGLE article on GET /articles/:id', function(done) {
     chai.request(app).get('/api/1.0/articles/1').end(function(err, res) {
       res.should.have.status(200);
       res.should.be.json;
@@ -58,7 +58,7 @@ describe('Articles', function() {
         done();
       });
   });
-  it('should update a SINGLE article on /articles/<id> PUT', function(done) {
+  it('should update a SINGLE article on /articles/:id PUT', function(done) {
     chai.request(app).put('/api/1.0/articles/1')
       .send({
         'title': 'Oregano',
@@ -80,7 +80,7 @@ describe('Articles', function() {
         done();
     });
   });
-  it('should delete a SINGLE article on /articles/<id> DELETE', function(done) {
+  it('should delete a SINGLE article on /articles/:id DELETE', function(done) {
     chai.request(app).delete('/api/1.0/articles/1').end(function(err, res){
       res.should.have.status(200);
       done();
