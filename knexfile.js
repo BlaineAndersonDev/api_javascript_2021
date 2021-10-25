@@ -2,9 +2,9 @@ require('dotenv').config()
 
 module.exports = {
 
-  tests: {
+  test: {
     client: 'pg',
-    connection: 'api_javascript',
+    connection: 'api_javascript_tests',
     migrations: {
       directory: __dirname + '/db/migrations'
     },

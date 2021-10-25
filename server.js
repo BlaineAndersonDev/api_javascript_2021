@@ -27,3 +27,6 @@ console.log('-------------------------------')
 
 // Sets the API to listen for calls.
 app.listen(port);
+
+// Exports the `app` to be used elsewhere in the project.
+module.exports = app

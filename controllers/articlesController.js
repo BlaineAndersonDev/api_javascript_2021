@@ -12,16 +12,14 @@ var moment = require('moment');
 // localhost:3000/api/1.0/articles/
 router.get('/', (async (req, res, next) => {
   const articles = await db.select('*').table('articles')
-  console.log(articles)
-  res.send(articles)
+  res.send({'SUCCESS': articles})
 }));
 
 // GET `api/1.0/articles/:id`
 // localhost:3000/api/1.0/articles/1
 router.get('/:id', (async (req, res, next) => {
   const article = await db.select('*').from('articles').where('id', req.params.id)
-  console.log(article)
-  res.send(article)
+  res.send({'SUCCESS': article[0]})
 }));
 
 // POST `api/1.0/articles`
@@ -29,12 +27,12 @@ router.get('/:id', (async (req, res, next) => {
 router.post('/', (async (req, res, next) => {
   const article = await db('articles')
     .insert({
-      user_id: req.body.userId, 
+      user_id: req.body.user_id, 
       title: req.body.title,
       text: req.body.text
     })
     .returning('*')
-  res.send(article)
+  res.send({'SUCCESS': article[0]})
 }));
 
 // PUT `api/1.0/articles/:id`
@@ -48,13 +46,13 @@ router.put('/:id', (async (req, res, next) => {
       updated_at: moment()
     })
     .returning('*')
-  res.send(article)
+  res.send({'UPDATED': article[0]})
 }));
 
 // DELETE `api/1.0/articles/:id`
 // curl -X DELETE localhost:3000/api/1.0/articles/5
 router.delete('/:id', (async (req, res, next) => {
-  const article = await db('articles')
+  await db('articles')
     .where('id', '=', req.params.id)
     .del();
   res.sendStatus(200)
