@@ -36,3 +36,21 @@
     * `knex seed:run --env development`
   * ACTION
     * `knex ____:_____ <______>`
+
+### Curls
+  * Articles
+    * GET * 
+      * `curl localhost:3000/api/1.0/articles/`
+      * `curl https://api-javascript-2021.herokuapp.com/api/1.0/articles`
+    * GET 
+      * `curl localhost:3000/api/1.0/articles/1`
+      * `curl https://api-javascript-2021.herokuapp.com/api/1.0/articles/1`
+    * POST 
+      * `curl -d '{"user_id":"1","title":"Curl Title","text":"Curl Paragraph"}' -H "Content-Type: application/json" localhost:3000/api/1.0/articles`
+      * `curl -d '{"user_id":"1","title":"Curl Title","text":"Curl Paragraph"}' -H "Content-Type: application/json" https://api-javascript-2021.herokuapp.com/api/1.0/articles`
+    * PUT 
+      * `curl -X PUT -d '{"title":"Curl UPDATED Title","text":"Curl UPDATED Paragraph"}' -H "Content-Type: application/json" localhost:3000/api/1.0/articles/1`
+      * `curl -X PUT -d '{"title":"Curl UPDATED Title","text":"Curl UPDATED Paragraph"}' -H "Content-Type: application/json" https://api-javascript-2021.herokuapp.com/api/1.0/articles/1`
+    * DELETE 
+      * `curl -X DELETE localhost:3000/api/1.0/articles/1`
+      * `curl -X DELETE https://api-javascript-2021.herokuapp.com/api/1.0/articles/1`

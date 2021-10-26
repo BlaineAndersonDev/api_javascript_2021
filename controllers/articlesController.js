@@ -7,22 +7,19 @@ var moment = require('moment');
 // Article Routes --
 // -----------------
 
-// GET `api/1.0/articles`
-// localhost:3000/api/1.0/articles/
+// GET *
 router.get('/', (async (req, res, next) => {
   const articles = await db.select('*').table('articles')
   res.send({'SUCCESS': articles})
 }));
 
-// GET `api/1.0/articles/:id`
-// localhost:3000/api/1.0/articles/1
+// GET
 router.get('/:id', (async (req, res, next) => {
   const article = await db.select('*').from('articles').where('id', req.params.id)
   res.send({'SUCCESS': article[0]})
 }));
 
-// POST `api/1.0/articles`
-// curl -d '{"userId":"1","title":"Curl Title","text":"Curl Paragraph"}' -H "Content-Type: application/json" localhost:3000/api/1.0/articles
+// POST
 router.post('/', (async (req, res, next) => {
   const article = await db('articles')
     .insert({
@@ -34,8 +31,7 @@ router.post('/', (async (req, res, next) => {
   res.send({'SUCCESS': article[0]})
 }));
 
-// PUT `api/1.0/articles/:id`
-// curl -X PUT -d '{"title":"Curl Title","text":"Curl Paragraph"}' -H "Content-Type: application/json" localhost:3000/api/1.0/articles/1
+// PUT
 router.put('/:id', (async (req, res, next) => {
   const article = await db('articles')
     .where('id', '=', req.params.id)
@@ -48,8 +44,7 @@ router.put('/:id', (async (req, res, next) => {
   res.send({'UPDATED': article[0]})
 }));
 
-// DELETE `api/1.0/articles/:id`
-// curl -X DELETE localhost:3000/api/1.0/articles/5
+// DELETE
 router.delete('/:id', (async (req, res, next) => {
   await db('articles')
     .where('id', '=', req.params.id)
@@ -57,9 +52,7 @@ router.delete('/:id', (async (req, res, next) => {
   res.sendStatus(200)
 }));
 
-
-
-// -------------------------------------
-// Export ------------------------------
-// -------------------------------------
+// -----------------
+// Export ----------
+// -----------------
 module.exports = router
