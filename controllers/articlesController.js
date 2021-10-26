@@ -3,10 +3,9 @@ var router = express.Router();
 const db = require('../db/database.js');
 var moment = require('moment');
 
-
-// -------------------------------------
-// Article Routes ----------------------
-// -------------------------------------
+// -----------------
+// Article Routes --
+// -----------------
 
 // GET `api/1.0/articles`
 // localhost:3000/api/1.0/articles/
