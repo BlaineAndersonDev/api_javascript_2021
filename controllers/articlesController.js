@@ -9,8 +9,25 @@ var moment = require('moment');
 
 // GET *
 router.get('/', (async (req, res, next) => {
-  const articles = await db.select('*').table('articles')
-  res.send({'SUCCESS': articles})
+  try {
+    const articles = await db.select('*').table ('articles')
+    try {
+      res.status(200).json({
+        SUCCESS: articles, 
+        MESSAGE: 'Route successfully returned * Articles.'
+      })
+    } catch (err) {
+      res.status(204).json({
+        FAILURE: err, 
+        MESSAGE: 'Route found no Articles.'
+      })
+    }
+  } catch (err) { 
+    res.status(500).json({
+      FAILURE: err, 
+      MESSAGE: 'Route failed.'
+    })
+  };
 }));
 
 // GET

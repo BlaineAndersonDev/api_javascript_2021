@@ -7,6 +7,7 @@ const db = require('../db/database.js'); // Access to the local testing database
 chai.use(chaiHttp).should();
 
 describe('Articles', function() {
+
   beforeEach( async () => await db.migrate.rollback()
     .then( async () => await db.migrate.latest())
     .then( async () => await db.seed.run())
