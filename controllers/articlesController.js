@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const db = require('../db/database.js');
-var moment = require('moment');
+const moment = require('moment');
+const errorCatcher = require('./_errorCatcher.js');
 
 // -----------------
 // Article Routes --
@@ -9,31 +10,53 @@ var moment = require('moment');
 
 // GET *
 router.get('/', (async (req, res, next) => {
-  try {
-    const articles = await db.select('*').table ('articles')
-    try {
-      res.status(200).json({
-        SUCCESS: articles, 
+  await db.select('*')
+    .table('articles')
+    .then((results) => {
+      if (!errorCatcher.objectExists(results)) {
+        res.status(404).send({
+          SUCCESS: results, 
+          MESSAGE: 'Route returned no Articles.'
+        });
+      }
+      res.status(200).send({
+        SUCCESS: results, 
         MESSAGE: 'Route successfully returned * Articles.'
-      })
-    } catch (err) {
-      res.status(204).json({
-        FAILURE: err, 
-        MESSAGE: 'Route found no Articles.'
-      })
-    }
-  } catch (err) { 
-    res.status(500).json({
-      FAILURE: err, 
-      MESSAGE: 'Route failed.'
+      });
     })
-  };
+    .catch((err) => {
+      console.log(err)
+      res.status(500).send({
+        FAILURE: err, 
+        MESSAGE: 'Route failed.'
+      })
+    });
 }));
 
 // GET
 router.get('/:id', (async (req, res, next) => {
-  const article = await db.select('*').from('articles').where('id', req.params.id)
-  res.send({'SUCCESS': article[0]})
+  await db.select('*')
+    .from('articles')
+    .where('id', req.params.id)
+    .then((results) => {
+      if (!errorCatcher.objectExists(results)) {
+        res.status(404).send({
+          SUCCESS: results, 
+          MESSAGE: 'Route returned no Article.'
+        });
+      }
+
+      res.status(200).send({
+        SUCCESS: results[0], 
+        MESSAGE: 'Route successfully returned * Articles.'
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        FAILURE: err, 
+        MESSAGE: 'Route failed.'
+      })
+    });
 }));
 
 // POST
