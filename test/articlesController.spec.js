@@ -6,29 +6,41 @@ const db = require('../db/database.js'); // Access to the local testing database
 
 chai.use(chaiHttp).should();
 
-describe('Articles', function() {
-
-  beforeEach( async () => await db.migrate.rollback()
-    .then( async () => await db.migrate.latest())
-    .then( async () => await db.seed.run())
-  );
-  afterEach( async () => await db.migrate.rollback());
+describe('Articles', () => {
+  
+  beforeEach( async () => {
+    await db.migrate.rollback()
+    await db.migrate.latest()
+    await db.seed.run()
+  });
+  afterEach( async () => { 
+    await db.migrate.rollback()
+  });
 
   describe('GET *', () => {
     it("should list ALL articles on GET /articles", async () => {
-      await chai.request(app).get('/api/1.0/articles').then((res) => {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.SUCCESS.should.be.a('array');
-        res.body.SUCCESS[0].should.have.property('id');
-        res.body.SUCCESS[0].id.should.equal(1);
-        res.body.SUCCESS[0].should.have.property('title');
-        res.body.SUCCESS[0].title.should.equal('Basil');
-        res.body.SUCCESS[0].should.have.property('text');
-        res.body.SUCCESS[0].text.should.equal('Basil, also called great basil, is a culinary herb of the family Lamiaceae. Basil is native to tropical regions from central Africa to Southeast Asia. It is a tender plant, and is used in cuisines worldwide. There are many varieties of basil, as well as several related species or hybrids also called basil.');
-        res.body.SUCCESS[0].should.have.property('created_at');
-        res.body.SUCCESS[0].should.have.property('updated_at');
-      });
+      await chai.request(app).get('/api/1.0/articles')
+        .then((res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.SUCCESS.should.be.a('array');
+          res.body.SUCCESS[0].should.have.property('id');
+          res.body.SUCCESS[0].id.should.equal(1);
+          res.body.SUCCESS[0].should.have.property('title');
+          res.body.SUCCESS[0].title.should.equal('Basil');
+          res.body.SUCCESS[0].should.have.property('text');
+          res.body.SUCCESS[0].text.should.equal('Basil, also called great basil, is a culinary herb of the family Lamiaceae. Basil is native to tropical regions from central Africa to Southeast Asia. It is a tender plant, and is used in cuisines worldwide. There are many varieties of basil, as well as several related species or hybrids also called basil.');
+          res.body.SUCCESS[0].should.have.property('created_at');
+          res.body.SUCCESS[0].should.have.property('updated_at');
+        });
+    });
+    it.skip("should return 404 status & error when no Articles exist", async () => {
+      await chai.request(app)
+        .get('/api/1.0/articles/')
+        .then((res) => {
+          res.should.have.status(404);
+          res.should.be.json;
+        });
     });
   });
 
