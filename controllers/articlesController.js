@@ -13,12 +13,6 @@ router.get('/', (async (req, res, next) => {
   await db.select('*')
     .table('articles')
     .then((results) => {
-      if (!errorCatcher.objectExists(results)) {
-        res.status(404).send({
-          SUCCESS: results, 
-          MESSAGE: 'Route returned no Articles.'
-        });
-      }
       res.status(200).send({
         SUCCESS: results, 
         MESSAGE: 'Route successfully returned * Articles.'
@@ -27,7 +21,7 @@ router.get('/', (async (req, res, next) => {
     .catch((err) => {
       console.log(err)
       res.status(500).send({
-        FAILURE: err, 
+        ERROR: err, 
         MESSAGE: 'Route failed.'
       })
     });
@@ -40,7 +34,7 @@ router.get('/:id', (async (req, res, next) => {
     .where('id', req.params.id)
     .then((results) => {
       if (!errorCatcher.objectExists(results)) {
-        res.status(404).send({
+        res.status(400).send({
           SUCCESS: results, 
           MESSAGE: 'Route returned no Article.'
         });
@@ -53,7 +47,7 @@ router.get('/:id', (async (req, res, next) => {
     })
     .catch((err) => {
       res.status(500).send({
-        FAILURE: err, 
+        ERROR: err, 
         MESSAGE: 'Route failed.'
       })
     });
@@ -61,14 +55,29 @@ router.get('/:id', (async (req, res, next) => {
 
 // POST
 router.post('/', (async (req, res, next) => {
-  const article = await db('articles')
+   if (!errorCatcher.requiredInfo(req.body.user_id)) { return res.status(400).json({ MESSAGE: "Body must contain user_id." }); };
+   if (!errorCatcher.requiredInfo(req.body.title)) { return res.status(400).json({ MESSAGE: "Body must contain title." }); };
+   if (!errorCatcher.requiredInfo(req.body.text)) { return res.status(400).json({ MESSAGE: "Body must contain text." }); };
+
+  await db('articles')
     .insert({
       user_id: req.body.user_id, 
       title: req.body.title,
       text: req.body.text
     })
     .returning('*')
-  res.send({'SUCCESS': article[0]})
+    .then((results) => {
+      res.status(200).send({
+        SUCCESS: results[0], 
+        MESSAGE: 'Route successfully created Article.'
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        ERROR: err, 
+        MESSAGE: 'Route failed.'
+      })
+    });
 }));
 
 // PUT
@@ -86,10 +95,26 @@ router.put('/:id', (async (req, res, next) => {
 
 // DELETE
 router.delete('/:id', (async (req, res, next) => {
+  if (!errorCatcher.requiredInfo(req.params.id)) { return res.status(400).json({ MESSAGE: "Params must contain id." }); };
+
+
+
   await db('articles')
     .where('id', '=', req.params.id)
-    .del();
-  res.sendStatus(200)
+    .del()
+    .returning('*')
+    .then((results) => {
+      res.status(200).send({
+        SUCCESS: results, 
+        MESSAGE: 'Route successfully deleted Article.'
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        ERROR: err, 
+        MESSAGE: 'Route failed.'
+      })
+    });
 }));
 
 // -----------------

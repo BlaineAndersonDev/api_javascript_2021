@@ -6,4 +6,13 @@ function objectExists(object) {
   }
 };
 
-module.exports = {objectExists};
+
+function requiredInfo(body) {
+  if (!body || body === undefined || body === null || body === '') {
+    return false // If body DOES NOT exist, return false.
+  } else {
+    return true // If body DOES exist, return true.
+  }
+};
+
+module.exports = {objectExists, requiredInfo};
