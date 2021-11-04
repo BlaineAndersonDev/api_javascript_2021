@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use('/api/1.0/users', require('./controllers/usersController.js')); // Route 'usersController' for ../users/.
 app.use('/api/1.0/articles', require('./controllers/articlesController.js'));
 app.use('/api/1.0/comments', require('./controllers/commentsController.js'));
+app.use('/', require('./controllers/actionsController.js'));
 
 // =====================================
 // Final Steps =========================
